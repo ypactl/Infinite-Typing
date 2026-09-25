@@ -13,10 +13,21 @@
         font-family: "monospace", monospace;
       }
     </style>
-    <input id="mainchars" placeholder="START TYPING.">
+    <input id="mainchars" placeholder="update plz">
     <p id="resuchars"></p>
     <script>
-      //wait brother
+      var game = {
+        chars: 0,
+        lastch: ""
+      }
+      setInterval(() => {
+        chars += document.getElementById("mainchars").value.length
+        game.lastch += document.getElementById("mainchars").value
+        game.lastch = game.lastch.slice(-100)
+        document.getElementById("mainchars").value = ""
+        document.getElementById("mainchars").placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
+        document.getElementById("resuchars").innerHTML = chars+" chars ~ "+lastch
+      }, 1)
     </script>
   </body>
 </html>
