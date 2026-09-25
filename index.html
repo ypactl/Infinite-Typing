@@ -21,12 +21,13 @@
         lastch: ""
       }
       setInterval(() => {
-        game.chars += document.getElementById("mainchars").value.length
-        game.lastch += document.getElementById("mainchars").value
+        var charinput = document.getElementById("mainchars")
+        game.chars += charinput.value.length
+        game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
-        document.getElementById("mainchars").value = ""
-        document.getElementById("mainchars").placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
-        document.getElementById("resuchars").innerHTML = chars+" chars ~ "+lastch
+        document.charinput.value = ""
+        document.charinput.placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
+        document.getElementById("resuchars").innerHTML = game.chars+" chars ~ "+game.lastch
       }, 20)
     </script>
   </body>
