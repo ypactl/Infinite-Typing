@@ -15,6 +15,7 @@
       input {
         font-family: "monospace", monospace;
         opacity: 0;
+        color: #ffffff;
       }
       button {
         font-family: "monospace", monospace;
@@ -77,7 +78,7 @@
         ot = nt
         var charinput = document.getElementById("mainchars")
         var guider = document.getElementById("guider")
-        game.chars += charinput.value.length + del/2000*(game.gen**2+game.gen)
+        game.chars += charinput.value.length + del/10000*(game.gen**2+game.gen)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
@@ -105,7 +106,7 @@
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
-        document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+(1.4**game.gen).toFixed(2)+" chars per second."
+        document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+0.1*(game.gen**2+game.gen).toFixed(0)+" chars per second."
         requestAnimationFrame(ui)
       }
       function load() {
