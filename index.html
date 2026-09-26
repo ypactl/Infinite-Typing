@@ -49,8 +49,12 @@
     <p id="resuchars"></p>
     <button class="layer0" id="newgen" onclick="newgenerator()">update plz</button>
     <p id="newgent">update plz</p>
-    <button id="unldo" class="layer1" style="display: block;" onclick="if(game.chars>=65536){game.chars-=65536; game.downloaded = true; this.style.display = 'none'}">Unlock download - 65536 chars</button>
+    <button id="unldo" class="layer1" style="display: block;" onclick="if(game.chars>=65536){game.chars-=65536; game.downloaded = true; game.flagsN.downloaded = Math.max(game.flagsN.downloaded,1); this.style.display = 'none'}">Unlock download - 65536 chars</button>
     <p id="dtext">update plz</p>
+    <button class="layer1" id="incdown" onclick="increasespeed()">update plz</button>
+    <p id="incdownt">update plz</p>
+    <button class="layer1" id="incpow" onclick="increasepower()">update plz</button>
+    <p id="incpowt">update plz</p>
     <script>
       var nt = new Date().getTime()
       var ot = nt
@@ -62,28 +66,51 @@
         texttime: new Date().getTime(),
         unkch: "",
         downloaded: false,
+        power: 0,
+        powerpower: 0,
         flagsN: {
           hasStarted: 0,
           thousand: 0,
           spam: 0,
-          unknownchar: 0
+          unknownchar: 0,
+          thrytwgen: 0,
+          downloaded: 0, 
+          firstpp: 0
         },
         flagsT: {
           hasStarted: ["'Hello, user.'", "'You have started typing.'", "'I do not know what to say here, since you have just came.'", "'I will leave you to it.'", "'Expect me at around 1000 chars.'", "''"],
-          thousand: ["'I do not have anything planned at this point.'", "'You can check back in a few days when the developer, known as YURI, updates this game.'", "'Do not even think about how he got his name. Of course I know how, because he made me, the GUIDER.'", "''"],
+          thousand: ["'I forgot to tell you something.'", "'I know the developer, YURI, by code, and he likes to put as much effort into this game,'", "'Which is why he planned a lot of layers.'", "'Unfortunately, as of now, there is LAYER0 and LAYER1.'", "'Do not ask why, he likes naming things this way.'", "'Get to 65536 chars to see the next layer.'", "''"],
           spam: ["'kK'.includes(game.lastch[0])?'Never do this again.':game.lastch.substring(90)", "'kK'.includes(game.lastch[0])?'Seriously.':'100 '+game.lastch[0]+'.'", "''"],
-          unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"]
+          unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"],
+          thrytwgen: ["game.flagsN.downloaded = 2; 'You know that there was a faster way to get to 65536 chars?'", "'You missed that oppurtunity.'", "'I was going to say something about unlocking downloads, but I forgot it.'", "''"],
+          downloaded: ["'There is not anything planned at this point.'", "'You can check back in a few days when the developer updates this game.'", "''"],
+          firstpp: ["'He just could not think of a better name than this.'", "'I could have called it Download Accelerator, or Power Accelerator.'", "'Even worse, when he made this set of dialogue, he called this flag firstpp.'", "'I know it was not intentional. I have seen his naming quirks before.'", "''"]
         }
       }
       var init = structuredClone(game)
       function reset() {
         game = structuredClone(init)
         game.texttime = new Date().getTime()
+        save()
+        load()
       }
       function newgenerator() {
         if (game.chars >= 1.4**game.gen) {
           game.chars-=1.4**game.gen
           game.gen++
+        }
+      }
+      function increasespeed() {
+        if (game.chars >= 50000+10000*game.power) {
+          game.chars-=50000+10000*game.power
+          game.power++
+        }
+      }
+      function increasepower() {
+        if (game.chars >= 150000*(1+game.powerpower)) {
+          game.chars-=150000*(1+game.powerpower)
+          game.powerpower++
+          game.flagsN.firstpp = Math.max(game.flagsN.firstpp, 1)
         }
       }
       function ui() {
@@ -92,7 +119,7 @@
         ot = nt
         var charinput = document.getElementById("mainchars")
         var guider = document.getElementById("guider")
-        game.chars += charinput.value.length + del/10000*(game.gen**2+game.gen) + game.downloaded*del
+        game.chars += charinput.value.length + del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower))
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
@@ -100,6 +127,7 @@
         document.getElementById("resuchars").innerHTML = game.chars.toFixed(0)+" chars ~ "+game.lastch
         if (game.chars >= 1 && game.flagsN.hasStarted < 1) game.flagsN.hasStarted++
         if (game.chars >= 1000 && game.flagsN.thousand < 1) game.flagsN.thousand++
+        if (game.gen >= 32 && game.flagsN.thrytwgen < 1) game.flagsN.thrytwgen++
         if (game.lastch == game.lastch.substring(0,1).repeat(100) && game.lastch.length > 0 && game.flagsN.spam < 1) game.flagsN.spam++
         let unkch = [...game.lastch].map(v => v.codePointAt()).filter((v) => {return v>=256})
         if (unkch.length > 0 && game.flagsN.unknownchar < 1) {
@@ -121,7 +149,11 @@
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
         document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second."
-        document.getElementById("dtext").innerHTML = game.downloaded?"You are downloading 1000 chars per second (wait for the next update!)":""
+        document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*100)+" chars per second").repeat(Number(game.downloaded))
+        document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.downloaded))
+        document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000*10000+game.power)
+        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.power)+" chars to download power.").repeat(Number(game.downloaded))
+        document.getElementById("incpow").innerHTML = "Download Power^2 Cost: "+(150000*(1+game.powerpower))
         requestAnimationFrame(ui)
       }
       function load() {
@@ -141,7 +173,13 @@
       load()
       ui()
       function save() {
-        localStorage.file = btoa("game.chars = "+game.chars+"/n game.gen="+game.gen+"/n game.downloaded="+game.downloaded+"/n game.flagsN="+JSON.stringify(game.flagsN)+"/n game.flagsT="+JSON.stringify(game.flagsT))
+        localStorage.file = btoa("game.chars = "+game.chars+"/n game.gen="+game.gen
+                                 +"/n game.downloaded="+game.downloaded
+                                 +"/n game.power="+game.power
+                                 +"/n game.powerpower="+game.powerpower
+                                 +"/n game.flagsN="+JSON.stringify(game.flagsN)
+                                 +"/n game.flagsT="+JSON.stringify(game.flagsT)
+                                )
       }
       setInterval(save, 10000)
     </script>
