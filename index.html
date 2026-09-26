@@ -13,6 +13,7 @@
         font-family: "monospace", monospace;
       }
     </style>
+    <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz">
     <p id="resuchars"></p>
@@ -68,7 +69,23 @@
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         requestAnimationFrame(ui)
       }
+      function load() {
+        try {
+          let t = atob(localStorage.file).split("/n")
+          for (let i = 0; i < t.length; i++) {
+            if (t[i].includes("=")) {
+              eval(t[i])
+            }
+          }
+        } catch (e) {
+        }
+      }
+      load()
       ui()
+      function save() {
+        localStorage.file = btoa("game.chars = "+game.chars+"/n game.flagsN"+JSON.stringify(game.flagsN)+"/n game.flagsT"+JSON.stringify(game.flagsT))
+      }
+      setInterval(save, 10000)
     </script>
   </body>
 </html>
