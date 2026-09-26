@@ -16,14 +16,33 @@
         font-family: "monospace", monospace;
         opacity: 0;
       }
+      button {
+        font-family: "monospace", monospace;
+        background-color: #000000;
+        color: #ffffff;
+        width: 300px;
+        height: 40px;
+        border: none;
+        border-radius: 0px;
+        justify-content: center;
+      }
+      button:hover {
+        background-color: #ffffff;
+        color: #000000;
+      }
     </style>
     <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz">
     <p id="resuchars"></p>
+    <button id="newgen" onclick="newgenerator()">update plz</button>
+    <p id="newgent">update plz</p>
     <script>
+      var nt = new Date().getTime()
+      var ot = nt
       var game = {
         chars: 0,
+        gen: 0,
         lastch: "",
         textbuffer: [],
         texttime: new Date().getTime(),
@@ -46,15 +65,24 @@
         game = structuredClone(init)
         game.texttime = new Date().getTime()
       }
+      function newgenerator() {
+        if (game.chars >= 1.4**game.gen) {
+          game.chars-=1.4**game.gen
+          game.gen++
+        }
+      }
       function ui() {
+        nt = new Date().getTime()
+        var del = nt-ot
+        ot = nt
         var charinput = document.getElementById("mainchars")
         var guider = document.getElementById("guider")
-        game.chars += charinput.value.length
+        game.chars += charinput.value.length + del/2000*(game.gen**2+game.gen)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
         charinput.placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
-        document.getElementById("resuchars").innerHTML = game.chars+" chars ~ "+game.lastch
+        document.getElementById("resuchars").innerHTML = game.chars.toFixed(0)+" chars ~ "+game.lastch
         if (game.chars > 0 && game.flagsN.hasStarted < 1) game.flagsN.hasStarted++
         if (game.chars > 999 && game.flagsN.thousand < 1) game.flagsN.thousand++
         if (game.lastch == game.lastch.substring(0,1).repeat(100) && game.lastch.length > 0 && game.flagsN.spam < 1) game.flagsN.spam++
@@ -76,6 +104,8 @@
           game.texttime+=5000
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
+        document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
+        document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+(1.4**game.gen).toFixed(2)+" chars per second."
         requestAnimationFrame(ui)
       }
       function load() {
@@ -92,7 +122,7 @@
       load()
       ui()
       function save() {
-        localStorage.file = btoa("game.chars = "+game.chars+"/n game.flagsN="+JSON.stringify(game.flagsN)+"/n game.flagsT="+JSON.stringify(game.flagsT))
+        localStorage.file = btoa("game.chars = "+game.chars+"/n game.gen="+game.gen+"/n game.flagsN="+JSON.stringify(game.flagsN)+"/n game.flagsT="+JSON.stringify(game.flagsT))
       }
       setInterval(save, 10000)
     </script>
