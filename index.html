@@ -57,7 +57,7 @@
           if (game.flagsN[i] == 1) {
             game.flagsN[i]++
             game.textbuffer = game.flagsT[i].map(v => eval(v))
-            game.texttime = new Date().getTime()+5000
+            game.texttime = new Date().getTime()-5000
           }
         }
         if (new Date().getTime()-5000 > game.texttime && game.textbuffer.length > 0) {
@@ -65,7 +65,7 @@
           game.textbuffer.splice(0,1)
           game.texttime+=5000
         }
-        guider.style.opacity = Math.sin((new Date().getTime() - game.texttime+625)/2500*Math.PI)*2.5+2.5
+        guider.style.opacity = Math.sin((new Date().getTime() - game.texttime)/2500*Math.PI)*2.5+2.5
         requestAnimationFrame(ui)
       }
       ui()
