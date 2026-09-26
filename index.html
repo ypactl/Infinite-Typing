@@ -45,7 +45,7 @@
     </style>
     <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
-    <input id="mainchars" placeholder="update plz">
+    <input id="mainchars" placeholder="update plz" maxlength=10>
     <p id="resuchars"></p>
     <button class="layer0" id="newgen" onclick="newgenerator()">update plz</button>
     <p id="newgent">update plz</p>
@@ -75,7 +75,8 @@
           unknownchar: 0,
           thrytwgen: 0,
           downloaded: 0, 
-          firstpp: 0
+          firstpp: 0,
+          maxlength: 0
         },
         flagsT: {
           hasStarted: ["'Hello, user.'", "'You have started typing.'", "'I do not know what to say here, since you have just came.'", "'I will leave you to it.'", "'Expect me at around 1000 chars.'", "''"],
@@ -83,8 +84,9 @@
           spam: ["'kK'.includes(game.lastch[0])?'Never do this again.':game.lastch.substring(90)", "'kK'.includes(game.lastch[0])?'Seriously.':'100 '+game.lastch[0]+'.'", "''"],
           unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"],
           thrytwgen: ["game.flagsN.downloaded = 2; 'You know that there was a faster way to get to 65536 chars?'", "'You missed that oppurtunity.'", "'I was going to say something about unlocking downloads, but I forgot it.'", "''"],
-          downloaded: ["'There is not anything planned at this point.'", "'You can check back in a few days when the developer updates this game.'", "''"],
-          firstpp: ["'He just could not think of a better name than this.'", "'I could have called it Download Accelerator, or Power Accelerator.'", "'Even worse, when he made this set of dialogue, he called this flag firstpp.'", "'I know it was not intentional. I have seen his naming quirks before.'", "''"]
+          downloaded: ["game.flagsN.thrytwgen = 2; 'There is not anything planned at this point.'", "'You can check back in a few days when the developer updates this game.'", "''"],
+          firstpp: ["'He just could not think of a better name than this.'", "'I could have called it Download Accelerator, or Power Accelerator.'", "'Even worse, when he made this set of dialogue, he called this flag firstpp.'", "'I know it was not intentional. I have seen his naming quirks before.'", "''"],
+          maxlength: ["'Unless you have really fast hands that can type 600 chars per second,'", "'I can tell when you are pasting anything. It is capped at 10 chars per frame, because the developer knows people will abuse it.'", "''"]
         }
       }
       var init = structuredClone(game)
@@ -118,6 +120,9 @@
         var del = nt-ot
         ot = nt
         var charinput = document.getElementById("mainchars")
+        if (charinput.value.length == 10) {
+          game.flagsN.maxlength++
+        }
         var guider = document.getElementById("guider")
         game.chars += charinput.value.length + del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower))
         game.lastch += charinput.value
@@ -127,7 +132,7 @@
         document.getElementById("resuchars").innerHTML = game.chars.toFixed(0)+" chars ~ "+game.lastch
         if (game.chars >= 1 && game.flagsN.hasStarted < 1) game.flagsN.hasStarted++
         if (game.chars >= 1000 && game.flagsN.thousand < 1) game.flagsN.thousand++
-        if (game.gen >= 32 && game.flagsN.thrytwgen < 1) game.flagsN.thrytwgen++
+        if (game.gen >= 32 && !game.flagsN.downloaded && game.flagsN.thrytwgen < 1) game.flagsN.thrytwgen++
         if (game.lastch == game.lastch.substring(0,1).repeat(100) && game.lastch.length > 0 && game.flagsN.spam < 1) game.flagsN.spam++
         let unkch = [...game.lastch].map(v => v.codePointAt()).filter((v) => {return v>=256})
         if (unkch.length > 0 && game.flagsN.unknownchar < 1) {
