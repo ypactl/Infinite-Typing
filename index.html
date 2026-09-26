@@ -14,7 +14,7 @@
       }
       input {
         font-family: "monospace", monospace;
-        opacity: 0;
+        background-color: #00000000;
         color: #ffffff;
       }
       button {
@@ -106,7 +106,7 @@
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
-        document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+0.1*(game.gen**2+game.gen).toFixed(0)+" chars per second."
+        document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second."
         requestAnimationFrame(ui)
       }
       function load() {
