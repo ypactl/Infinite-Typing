@@ -13,22 +13,61 @@
         font-family: "monospace", monospace;
       }
     </style>
+    <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz">
     <p id="resuchars"></p>
     <script>
       var game = {
         chars: 0,
-        lastch: ""
+        lastch: "",
+        textbuffer: [],
+        texttime: new Date().getTime(),
+        unkch: "",
+        flagsN: {
+          hasStarted: 0,
+          thousand: 0,
+          spam: 0,
+          unknownchar: 0
+        },
+        flagsT: {
+          hasStarted: ["'Hello, user.'", "'You have started typing.'", "'I do not know what to say here, since you have just came.'", "'I'll leave you to it.'", "'Expect me at around 1000 chars.'", "''"],
+          thousand: ["'I do not have anything planned at this point.'", "'You can check back in a few days when the developer, known as YURI, updates this game.'", "'Don't even think about how he got his name. Of course I know how, because he made me, the GUIDER.'", "''"],
+          spam: ["'kK'.includes(game.lastch[0])?'Never do this again.':game.lastch.substring(90)", "'kK'.includes(game.lastch[0])?'Seriously.':'100 '+game.lastch[0]+'.'", "''"],
+          unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"]
+        }
       }
-      setInterval(() => {
+      function ui() {
         var charinput = document.getElementById("mainchars")
+        var guider = document.getElementById("guider")
         game.chars += charinput.value.length
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
-        document.charinput.value = ""
-        document.charinput.placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
+        charinput.value = ""
+        charinput.placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
         document.getElementById("resuchars").innerHTML = game.chars+" chars ~ "+game.lastch
-      }, 20)
+        if (game.chars > 0 && game.flagsN.hasStarted < 1) game.flagsN.hasStarted++
+        if (game.chars > 999 && game.flagsN.thousand < 1) game.flagsN.thousand++
+        if (game.lastch == game.lastch.substring(0,1).repeat(100) && game.lastch.length > 0 && game.flagsN.spam < 1) game.flagsN.spam++
+        let unkch = [...game.lastch].map(v => v.codePointAt()).filter((v) => {return v>=256})
+        if (unkch.length > 0 && game.flagsN.unknownchar < 1) {
+          game.unkch = String.fromCharCode(unkch[0])
+          game.flagsN.unknownchar++
+        }
+        for (i in game.flagsN) {
+          if (game.flagsN[i] == 1) {
+            game.flagsN[i]++
+            game.textbuffer = game.flagsT[i].map(v => eval(v))
+          }
+        }
+        if (new Date().getTime()+5000 > game.texttime && game.textbuffer.length > 0) {
+          guider.innerHTML = game.textbuffer[0]
+          game.textbuffer.splice(0,1)
+          game.texttime+=5000
+        }
+        guider.style.opacity = Math.sin((new Date().getTime() - game.texttime)/500*Math.PI)*2.5+2.5
+        requestAnimationFrame(ui)
+      }
+      ui()
     </script>
   </body>
 </html>
