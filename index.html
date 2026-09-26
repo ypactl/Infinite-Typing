@@ -37,6 +37,11 @@
           unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"]
         }
       }
+      var init = structuredClone(game)
+      function reset() {
+        game = structuredClone(init)
+        game.texttime = new Date().getTime()
+      }
       function ui() {
         var charinput = document.getElementById("mainchars")
         var guider = document.getElementById("guider")
@@ -83,7 +88,7 @@
       load()
       ui()
       function save() {
-        localStorage.file = btoa("game.chars = "+game.chars+"/n game.flagsN"+JSON.stringify(game.flagsN)+"/n game.flagsT"+JSON.stringify(game.flagsT))
+        localStorage.file = btoa("game.chars = "+game.chars+"/n game.flagsN="+JSON.stringify(game.flagsN)+"/n game.flagsT="+JSON.stringify(game.flagsT))
       }
       setInterval(save, 10000)
     </script>
