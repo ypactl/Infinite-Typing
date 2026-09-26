@@ -65,7 +65,7 @@
           game.textbuffer.splice(0,1)
           game.texttime+=5000
         }
-        guider.style.opacity = Math.sin((new Date().getTime() - game.texttime)/2500*Math.PI)*2.5+2.5
+        guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         requestAnimationFrame(ui)
       }
       ui()
