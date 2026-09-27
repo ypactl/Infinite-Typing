@@ -25,7 +25,7 @@
         border-radius: 0px;
       }
       .layer0 {
-        display: block;
+        display: layers;
         background-color: #000000;
         color: #ffffff;
       }
@@ -34,7 +34,7 @@
         color: #000000;
       }
       .layer1 {
-        display: block;
+        display: none;
         background-color: #00ff00;
         color: #ffffff;
       }
@@ -44,12 +44,13 @@
       }
     </style>
     <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button>
+    <button onclick="switchl(-1)">«</button><button onclick="switchl(1)">«</button>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz" maxlength=10>
     <p id="resuchars"></p>
     <button class="layer0" id="newgen" onclick="newgenerator()">update plz</button>
     <p id="newgent">update plz</p>
-    <button id="unldo" class="layer1" style="display: block;" onclick="if(game.chars>=65536){game.chars-=65536; game.downloaded = true; game.flagsN.downloaded = Math.max(game.flagsN.downloaded,1); this.style.display = 'none'}">Unlock download - 65536 chars</button>
+    <button id="unldo" class="layer1" style="display: block;" onclick="if(game.chars>=65536){game.chars-=65536; game.downloaded = true; game.flagsN.downloaded = Math.max(game.flagsN.downloaded,1); game.layersunl = Math.max(game.layersunl, 1); this.style.display = 'none'}">Unlock download - 65536 chars</button>
     <p id="dtext">update plz</p>
     <button class="layer1" id="incdown" onclick="increasespeed()">update plz</button>
     <p id="incdownt">update plz</p>
@@ -68,6 +69,8 @@
         downloaded: false,
         power: 0,
         powerpower: 0,
+        layersunl: 0,
+        layer: 0,
         flagsN: {
           hasStarted: 0,
           thousand: 0,
@@ -95,6 +98,13 @@
         game.texttime = new Date().getTime()
         save()
         load()
+      }
+      function switchl(x) {
+        game.layer=((game.layer+x)%(game.layersunl+1)+game.layersunl+1)%(game.layersunl+1)
+        for (let i = 0; i < 2; i++) {
+          let e = document.querySelectorAll(".layer"+i)
+          e.forEach(v => {v.style.display = i==game.layer?"block":"none"})
+        }
       }
       function newgenerator() {
         if (game.chars >= 1.4**game.gen) {
@@ -155,10 +165,10 @@
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
         document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second."
-        document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*100)+" chars per second").repeat(Number(game.downloaded))
-        document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.downloaded))
+        document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*(100+50*game.powerpower))+" chars per second").repeat(Number(game.downloaded && game.layer==1))
+        document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.downloaded && game.layer==1))
         document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000+10000*game.power)
-        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.powerpower)+" chars to download power.").repeat(Number(game.downloaded))
+        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.powerpower)+" chars more on each download power.").repeat(Number(game.downloaded && game.layer==1))
         document.getElementById("incpow").innerHTML = "Download Power^2 Cost: "+(150000*(1+game.powerpower))
         requestAnimationFrame(ui)
       }
@@ -176,6 +186,7 @@
       function save() {
         localStorage.file = btoa("game.chars = "+game.chars
                                  +"\ngame.gen="+game.gen
+                                 +"\ngame.layersunl="+game.layersunl
                                  +"\ngame.downloaded="+game.downloaded
                                  +"\ngame.power="+game.power
                                  +"\ngame.powerpower="+game.powerpower
