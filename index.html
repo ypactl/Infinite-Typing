@@ -143,7 +143,7 @@
           firstpp: ["'He just could not think of a better name than this.'", "'I could have called it Download Accelerator, or Power Accelerator.'", "'Even worse, when he made this set of dialogue, he called this flag firstpp.'", "'I know it was not intentional. I have seen his naming quirks before.'", "''"],
           maxlength: ["'Unless you have really fast hands that can type 600 chars per second,'", "'I can tell when you are pasting anything. It is capped at 10 chars per frame, because the developer knows people will abuse it.'", "''"],
           logged: ["'There was an input sitting there for a while. I need you to type some name.'", "'You can choose to leave it, but I will call you USER.'", "''"],
-          named: ["game.flagsN.named = 0; game.textbuffer=structuredClone(name[game.name || 'USER'] || name[''])"]
+          named: []
         }
       }
       var init = structuredClone(game)
@@ -158,7 +158,7 @@
         if (x.value.includes("=")) {
           x.value = x.value.replaceAll("=","")
           game.name = x.value || "USER"
-          if (game.flagsN.named < 1) game.flagsN.named++
+          game.textbuffer = (name[(game.name || "USER")] || name[""])
         }
       }
       function switchl(x) {
