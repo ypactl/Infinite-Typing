@@ -43,8 +43,8 @@
         color: #00ff00;
       }
     </style>
-    <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button>
-    <button onclick="switchl(-1)">«</button><button onclick="switchl(1)">«</button>
+    <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button><br>
+    <button onclick="switchl(-1)">«</button><button onclick="switchl(1)">»</button>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz" maxlength=10>
     <p id="resuchars"></p>
@@ -95,16 +95,13 @@
       var init = structuredClone(game)
       function reset() {
         game = structuredClone(init)
-        game.texttime = new Date().getTime()
         save()
         load()
       }
       function switchl(x) {
+        document.querySelectorAll(".layer"+game.layer).forEach(v => {v.style.display = "none"})
         game.layer=((game.layer+x)%(game.layersunl+1)+game.layersunl+1)%(game.layersunl+1)
-        for (let i = 0; i < 2; i++) {
-          let e = document.querySelectorAll(".layer"+i)
-          e.forEach(v => {v.style.display = i==game.layer?"block":"none"})
-        }
+        document.querySelectorAll(".layer"+game.layer).forEach(v => {v.style.display = "block"})
       }
       function newgenerator() {
         if (game.chars >= 1.4**game.gen) {
@@ -180,6 +177,8 @@
         if (game.downloaded) {
           document.getElementById("unldo").style.display = "none"
         }
+        game.texttime = new Date().getTime()
+        game.textbuffer = ["''"]
       }
       load()
       ui()
