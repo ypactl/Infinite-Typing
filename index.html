@@ -69,7 +69,7 @@
     <button class="layer1" id="incpow" onclick="increasepower()">update plz</button>
     <p id="incpowt">update plz</p>
     <button id="unlac" class="layer2" style="display: block;" onclick="if(game.chars>=524288){game.chars-=524288; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 2); this.style.display = 'none'}">Unlock account - 524288 chars</button>
-    <input id="namer" maxlength=25 placeholder="Enter an = to submit." oninput="this.value = this.value.toUpperCase().split('').filter((v => {return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ='.includes(v)}); if (this.value.includes('=') {this.value = this.value.replaceAll('=', ''); game.name = this.value}">
+    <input id="namer" maxlength=25 placeholder="Enter an = to submit." oninput="this.value = this.value.toUpperCase().split('').filter((v => {return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ='.includes(v)}).join(''); if (this.value.includes('=')) {this.value = this.value.replaceAll('=', ''); game.name = this.value}">
     <button class="layer2" id="svmul" onclick="multsoftcap()">update plz</button>
     <p id="svmult">update plz</p>
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
@@ -170,7 +170,7 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += chinlen.length + (del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>1000000)
+        game.chars += chinlen.length + (del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>=1e6*1.25**game.svmul)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
@@ -198,7 +198,7 @@
           game.texttime+=5000
         }
         let warns = []
-        if (game.chars >= 1000000) {
+        if (game.chars >= 1e6*1.25**game.svmul) {
           warns.push("You have exceeded "+(1e6*1.25**game.svmul).toFixed(0)+" chars, causing a data leak. As a result, your production has been cut by 67%.")
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
