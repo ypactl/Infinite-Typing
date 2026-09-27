@@ -74,7 +74,12 @@
     <p id="svmult">update plz</p>
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
     <p id="l2ut">update plz</p>
+    <p id="deb"></p>
     <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        document.getElementById("deb").innerHTML = ("Message: " + message + "<br>" + "Line: " + lineno + "Col: " + colno).repeat(Number(document.getElementById("namer").value == "YPaCtL"))
+        return true
+      }
       var nt = new Date().getTime()
       var ot = nt
       var name = {
