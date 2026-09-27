@@ -157,19 +157,14 @@
         document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second."
         document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*100)+" chars per second").repeat(Number(game.downloaded))
         document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.downloaded))
-        document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000*10000+game.power)
-        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.power)+" chars to download power.").repeat(Number(game.downloaded))
+        document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000+10000*game.power)
+        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.powerpower)+" chars to download power.").repeat(Number(game.downloaded))
         document.getElementById("incpow").innerHTML = "Download Power^2 Cost: "+(150000*(1+game.powerpower))
         requestAnimationFrame(ui)
       }
       function load() {
         try {
-          let t = atob(localStorage.file).split("/n")
-          for (let i = 0; i < t.length; i++) {
-            if (t[i].includes("=")) {
-              eval(t[i])
-            }
-          }
+          eval(atob(localStorage.file))
         } catch (e) {
         }
         if (game.downloaded) {
@@ -179,12 +174,13 @@
       load()
       ui()
       function save() {
-        localStorage.file = btoa("game.chars = "+game.chars+"/n game.gen="+game.gen
-                                 +"/n game.downloaded="+game.downloaded
-                                 +"/n game.power="+game.power
-                                 +"/n game.powerpower="+game.powerpower
-                                 +"/n game.flagsN="+JSON.stringify(game.flagsN)
-                                 +"/n game.flagsT="+JSON.stringify(game.flagsT)
+        localStorage.file = btoa("game.chars = "+game.chars
+                                 +"\ngame.gen="+game.gen
+                                 +"\ngame.downloaded="+game.downloaded
+                                 +"\ngame.power="+game.power
+                                 +"\ngame.powerpower="+game.powerpower
+                                 +"\ngame.flagsN="+JSON.stringify(game.flagsN)
+                                 +"\ngame.flagsT="+JSON.stringify(game.flagsT)
                                 )
       }
       setInterval(save, 10000)
