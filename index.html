@@ -69,7 +69,7 @@
     <button class="layer1" id="incpow" onclick="increasepower()">update plz</button>
     <p id="incpowt">update plz</p>
     <button id="unlac" class="layer2" style="display: block;" onclick="if(game.chars>=524288){game.chars-=524288; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 2); this.style.display = 'none'}">Unlock account - 524288 chars</button>
-    <input id="namer" maxlength="25" placeholder="Enter an = to submit." oninput="this.value = this.value.toUpperCase().split('').filter((v => {return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ='.includes(v)}).join(''); if (this.value.includes('=')) {this.value = this.value.replaceAll('=', ''); game.name = this.value}">
+    <input id="namer" maxlength="25" placeholder="Enter an = to submit." oninput="checkname(this)">
     <button class="layer2" id="svmul" onclick="multsoftcap()">update plz</button>
     <p id="svmult">update plz</p>
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
@@ -119,8 +119,16 @@
       var init = structuredClone(game)
       function reset() {
         game = structuredClone(init)
-        save()
+        localStorage.file=""
         load()
+        save()
+      }
+      function checkname(x) {
+        x.value = x.value.split("").filter((v) => {return "ABCDEFGHIJKLMNOPQRSTUVWXYZ=".includes(v)}).join("")
+        if (x.value.includes("=")) {
+          x.value = x.value.replaceAll("=", " ")
+          game.name = x.value
+        }
       }
       function switchl(x) {
         document.querySelectorAll(".layer"+game.layer).forEach(v => {v.style.display = "none"})
