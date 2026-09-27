@@ -42,12 +42,24 @@
         background-color: #ffffff;
         color: #00ff00;
       }
+      
+      .layer2 {
+        display: none;
+        background-color: #ffbfff;
+        color: #000000;
+      }
+      .layer2:hover {
+        background-color: #000000
+        color: #ffbfff;
+      }
     </style>
     <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button><br>
     <button onclick="switchl(-1)">«</button><button onclick="switchl(1)">»</button>
+    <p>There is no offline progress yet. You should have this tab open at all times if you want progress for the next hours.</p>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz" maxlength=10>
     <p id="resuchars"></p>
+    <p id="warns">update plz</p>
     <button class="layer0" id="newgen" onclick="newgenerator()">update plz</button>
     <p id="newgent">update plz</p>
     <button id="unldo" class="layer1" style="display: block;" onclick="if(game.chars>=65536){game.chars-=65536; game.downloaded = true; game.flagsN.downloaded = Math.max(game.flagsN.downloaded,1); game.layersunl = Math.max(game.layersunl, 1); this.style.display = 'none'}">Unlock download - 65536 chars</button>
@@ -133,7 +145,7 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower))
+        game.chars += chinlen.length + (del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower)))/3**Number(game.chars>1000000)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
@@ -160,6 +172,10 @@
           game.textbuffer.splice(0,1)
           game.texttime+=5000
         }
+        let warns = []
+        if (game.chars >= 1000000) {
+          warns.push("You have exceeded 1000000 chars, causing a data leak. As a result, your production has been cut by 67%.")
+        }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
         document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second."
@@ -168,6 +184,7 @@
         document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000+10000*game.power)
         document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.powerpower)+" chars more on each download power.").repeat(Number(game.downloaded && game.layer==1))
         document.getElementById("incpow").innerHTML = "Download Power^2 Cost: "+(150000*(1+game.powerpower))
+        document.getElementById("warns").innerHTML = warns.join("<br>")
         requestAnimationFrame(ui)
       }
       function load() {
