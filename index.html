@@ -54,7 +54,7 @@
       }
     </style>
     <button onclick="save()">SAVE</button><button onclick="load()">LOAD</button><button onclick="reset()">RESET</button><br>
-    <button onclick="switchl(-1)">«</button><button onclick="switchl(1)">»</button>
+    <button onclick="switchl(-1)" style="width: 40px;">«</button><button onclick="switchl(1)" style="width: 40px;">»</button>
     <p>There is no offline progress yet. You should have this tab open at all times if you want progress for the next hours.</p>
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz" maxlength=10>
@@ -69,7 +69,7 @@
     <button class="layer1" id="incpow" onclick="increasepower()">update plz</button>
     <p id="incpowt">update plz</p>
     <button id="unlac" class="layer2" style="display: block;" onclick="if(game.chars>=524288){game.chars-=524288; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 2); this.style.display = 'none'}">Unlock account - 524288 chars</button>
-    <input id="namer" maxlength=25 placeholder="Enter an = to submit." oninput="this.value = this.value.toUpperCase().split('').filter((v => {return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ='.includes(v)}).join(''); if (this.value.includes('=')) {this.value = this.value.replaceAll('=', ''); game.name = this.value}">
+    <input id="namer" maxlength="25" placeholder="Enter an = to submit." oninput="this.value = this.value.toUpperCase().split('').filter((v => {return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ='.includes(v)}).join(''); if (this.value.includes('=')) {this.value = this.value.replaceAll('=', ''); game.name = this.value}">
     <button class="layer2" id="svmul" onclick="multsoftcap()">update plz</button>
     <p id="svmult">update plz</p>
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
