@@ -34,7 +34,7 @@
         color: #000000;
       }
       .layer1 {
-        display: none;
+        display: block;
         background-color: #00ff00;
         color: #ffffff;
       }
@@ -120,11 +120,12 @@
         var del = nt-ot
         ot = nt
         var charinput = document.getElementById("mainchars")
-        if (charinput.value.length == 10) {
+        var chinlen = [...charinput.value]
+        if (chinlen.length == 10) {
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += charinput.value.length + del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower))
+        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower))
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
