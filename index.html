@@ -46,10 +46,10 @@
       .layer2 {
         display: none;
         background-color: #ffbfff;
-        color: #000000;
+        color: #ffffff;
       }
       .layer2:hover {
-        background-color: #000000
+        background-color: #ffffff;
         color: #ffbfff;
       }
     </style>
@@ -68,6 +68,12 @@
     <p id="incdownt">update plz</p>
     <button class="layer1" id="incpow" onclick="increasepower()">update plz</button>
     <p id="incpowt">update plz</p>
+    <button id="unlac" class="layer2" style="display: block;" onclick="if(game.chars>=524288){game.chars-=524288; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 2); this.style.display = 'none'}">Unlock account - 524288 chars</button>
+    <input id="namer" maxlength=25 placeholder="Enter an = to submit." oninput="this.value = this.value.toUpperCase().split('').filter((v => {return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ='.includes(v)}); if (this.value.includes('=') {this.value = this.value.replaceAll('=', ''); game.name = this.value}">
+    <button class="layer2" id="svmul" onclick="multsoftcap()">update plz</button>
+    <p id="svmult">update plz</p>
+    <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
+    <p id="l2ut">update plz</p>
     <script>
       var nt = new Date().getTime()
       var ot = nt
@@ -79,8 +85,12 @@
         texttime: new Date().getTime(),
         unkch: "",
         downloaded: false,
+        logged: false,
+        name: "",
         power: 0,
         powerpower: 0,
+        svmul: 0,
+        ppmul: false,
         layersunl: 0,
         layer: 0,
         flagsN: {
@@ -91,17 +101,19 @@
           thrytwgen: 0,
           downloaded: 0, 
           firstpp: 0,
-          maxlength: 0
+          maxlength: 0,
+          logged: 0
         },
         flagsT: {
-          hasStarted: ["'Hello, user.'", "'You have started typing.'", "'I do not know what to say here, since you have just came.'", "'I will leave you to it.'", "'Expect me at around 1000 chars.'", "''"],
-          thousand: ["'I forgot to tell you something.'", "'I know the developer, YURI, by code, and he likes to put as much effort into this game,'", "'Which is why he planned a lot of layers.'", "'There are 2 layers as of now, naming them LAYER0 to LAYER1.'", "'Do not ask why, he likes naming things this way.'", "'Get to 65536 chars to see the next layer.'", "''"],
+          hasStarted: ["'Hello, USER.'", "'You have started typing.'", "'I do not know what to say here, since you have just came.'", "'I will leave you to it.'", "'Expect me at around 1000 chars.'", "''"],
+          thousand: ["'I forgot to tell you something.'", "'I know the developer, YURI, by code, and he likes to put as much effort into this game,'", "'Which is why he planned a lot of layers.'", "'There are 3 layers as of now, naming them LAYER0 to LAYER2.'", "'Do not ask why, he likes naming things this way.'", "'Get to 65536 chars to see the next layer.'", "''"],
           spam: ["'kK'.includes(game.lastch[0])?'Never do this again.':game.lastch.substring(90)", "'kK'.includes(game.lastch[0])?'Seriously.':'100 '+game.lastch[0]+'.'", "''"],
           unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"],
           thrytwgen: ["game.flagsN.downloaded = 2; 'You know that there was a faster way to get to 65536 chars?'", "'You missed that oppurtunity.'", "'I was going to say something about unlocking downloads, but I forgot it.'", "''"],
           downloaded: ["game.flagsN.thrytwgen = 2; 'There is not anything planned at this point.'", "'You can check back in a few days when the developer updates this game.'", "''"],
           firstpp: ["'He just could not think of a better name than this.'", "'I could have called it Download Accelerator, or Power Accelerator.'", "'Even worse, when he made this set of dialogue, he called this flag firstpp.'", "'I know it was not intentional. I have seen his naming quirks before.'", "''"],
-          maxlength: ["'Unless you have really fast hands that can type 600 chars per second,'", "'I can tell when you are pasting anything. It is capped at 10 chars per frame, because the developer knows people will abuse it.'", "''"]
+          maxlength: ["'Unless you have really fast hands that can type 600 chars per second,'", "'I can tell when you are pasting anything. It is capped at 10 chars per frame, because the developer knows people will abuse it.'", "''"],
+          logged: ["'You now have an input. I need you to type some name.'", "'You can choose to leave it, but I will call you USER.'", "''"]
         }
       }
       var init = structuredClone(game)
@@ -115,6 +127,7 @@
         game.layer=((game.layer+x)%(game.layersunl+1)+game.layersunl+1)%(game.layersunl+1)
         document.querySelectorAll(".layer"+game.layer).forEach(v => {v.style.display = "block"})
         if (game.downloaded) document.getElementById("unldo").style.display = "none"
+        if (game.logged) document.getElementById("unlac").style.display = "none"
       }
       function newgenerator() {
         if (game.chars >= 1.4**game.gen) {
@@ -135,6 +148,18 @@
           game.flagsN.firstpp = Math.max(game.flagsN.firstpp, 1)
         }
       }
+      function multsoftcap() {
+        if (game.chars >= 1000000*1.25**game.svmul) {
+          game.chars-=1000000*1.25**game.svmul
+          game.svmul++
+        }
+      }
+      function multpp() {
+        if (game.chars >= 5000000 && !game.ppmul) {
+          game.chars-=5000000
+          game.ppmul=true
+        }
+      }
       function ui() {
         nt = new Date().getTime()
         var del = nt-ot
@@ -145,7 +170,7 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += chinlen.length + (del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*game.powerpower)))/3**Number(game.chars>1000000)
+        game.chars += chinlen.length + (del/10000*(game.gen**2+game.gen) + game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>1000000)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
@@ -174,16 +199,20 @@
         }
         let warns = []
         if (game.chars >= 1000000) {
-          warns.push("You have exceeded 1000000 chars, causing a data leak. As a result, your production has been cut by 67%.")
+          warns.push("You have exceeded "+(1e6*1.25**game.svmul).toFixed(0)+" chars, causing a data leak. As a result, your production has been cut by 67%.")
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
-        document.getElementById("newgent").innerHTML = "You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second."
-        document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*(100+50*game.powerpower))+" chars per second").repeat(Number(game.downloaded && game.layer==1))
-        document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.downloaded && game.layer==1))
+        document.getElementById("newgent").innerHTML = ("You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second.").repeat(Number(game.layer==0))
+        document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower))+" chars per second").repeat(Number(game.layer==1))
+        document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.layer==1))
         document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000+10000*game.power)
-        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*game.powerpower)+" chars more on each download power.").repeat(Number(game.downloaded && game.layer==1))
+        document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*1.25**(game.svmul*game.ppmul)*game.powerpower)+" chars more on each download power.").repeat(Number(game.layer==1))
         document.getElementById("incpow").innerHTML = "Download Power^2 Cost: "+(150000*(1+game.powerpower))
+        document.getElementById("svmul").innerHTML = "Multiply Softcap Cost: "+(1e6*1.25**game.svmul).toFixed(0)
+        document.getElementById("svmult").innerHTML = ("The softcap is currently at "+(1e6*1.25**game.svmul).toFixed(0)+" chars.").repeat(Number(game.layer==2))
+        document.getElementById("l2u").innerHTML = "Multiply Download Power^2 Cost: 5000000"
+        document.getElementById("l2ut").innerHTML = (["","Download Power^2 is now "+(1.25**game.svmul).toFixed(2)+" times stronger."][Number(game.ppmul)]).repeat(Number(game.layer==2))
         document.getElementById("warns").innerHTML = warns.join("<br>")
         requestAnimationFrame(ui)
       }
@@ -195,6 +224,9 @@
         if (game.downloaded) {
           document.getElementById("unldo").style.display = "none"
         }
+        if (game.logged) {
+          document.getElementById("unlac").style.display = "none"
+        }
         game.texttime = new Date().getTime()
         game.textbuffer = [""]
       }
@@ -205,8 +237,12 @@
                                  +"\ngame.gen="+game.gen
                                  +"\ngame.layersunl="+game.layersunl
                                  +"\ngame.downloaded="+game.downloaded
+                                 +"\ngame.logged="+game.logged
+                                 +"\ngame.name="+'"'+game.name+'"'
                                  +"\ngame.power="+game.power
                                  +"\ngame.powerpower="+game.powerpower
+                                 +"\ngame.svmul="+game.svmul
+                                 +"\ngame.ppmul="+game.ppmul
                                  +"\ngame.flagsN="+JSON.stringify(game.flagsN)
                                  +"\ngame.flagsT="+JSON.stringify(game.flagsT)
                                 )
