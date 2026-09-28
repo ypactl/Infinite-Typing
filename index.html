@@ -82,7 +82,7 @@
       }
       var nt = new Date().getTime()
       var ot = nt
-      var name = {
+      var namer = {
         ZOE: ["ZOE.", "A beautiful name.", ""],
         YURI: ["...", "You are not the developer, are you?", "I know that because, this name is common", "Regardless, this name is pretty.", ""],
         WILSON: ["WILSON, as in Wilson Code, huh?", "Or maybe you do not know about it?", "Search it up if you do not.", ""],
@@ -163,7 +163,7 @@
         if (x.value.includes("=")) {
           x.value = x.value.replaceAll("=","")
           game.name = x.value || "USER"
-          game.textbuffer = [...(name[game.name] ?? name[""])]
+          game.textbuffer = [...(namer[game.name] ?? namer[""])]
           game.texttime = new Date().getTime()-5000
           game.flagsN.named = 2
         }
