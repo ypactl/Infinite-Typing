@@ -225,7 +225,7 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3)**Number(game.chars>=1e6*1.25**game.svmul)**(1/Math.sqrt(Math.log10(Math.max(game.chars, 1e12))-11))
+        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>=1e6*1.25**game.svmul))**(1/Math.sqrt(Math.log10(Math.max(game.chars, 1e12))-11))
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
