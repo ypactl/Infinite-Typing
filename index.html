@@ -225,7 +225,7 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += chinlen.length + (del/10000*(game.gen**2+game.gen) + (game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3)**Number(game.chars>=1e6*1.25**game.svmul)**(1/Math.sqrt(Math.log(Math.max(game.chars, 1e12))-11))
+        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3)**Number(game.chars>=1e6*1.25**game.svmul)**(1/Math.sqrt(Math.log10(Math.max(game.chars, 1e12))-11))
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         charinput.value = ""
@@ -257,7 +257,7 @@
           warns.push("You have exceeded "+(1e6*1.25**game.svmul).toFixed(0)+" chars, causing a data leak. As a result, your production has been cut by 67%.")
         }
         if (game.chars >= 1e12) {
-          warns.push("You have exceeded 1e12 chars, causing slower storage. As a result, your download speed has been rooted by "+(Math.sqrt(Math.log(game.chars)-11)).toFixed(2)+".")
+          warns.push("You have exceeded 1e12 chars, causing slower storage. As a result, your download speed has been rooted by "+(Math.sqrt(Math.log10(game.chars)-11)).toFixed(2)+".")
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
