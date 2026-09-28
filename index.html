@@ -163,7 +163,7 @@
         if (x.value.includes("=")) {
           x.value = x.value.replaceAll("=","")
           game.name = x.value || "USER"
-          game.textbuffer = name[game.name]==undefined?name[""]:name[game.name]
+          game.textbuffer = [...(name[game.name] ?? name[""])]
           game.texttime = new Date().getTime()-5000
           game.flagsN.named = 2
         }
