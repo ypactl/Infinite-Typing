@@ -68,6 +68,7 @@
     <h1 id="guider" style="text-align: center; opacity: 0;"></h1>
     <input id="mainchars" placeholder="update plz" maxlength=10>
     <p id="resuchars"></p>
+    <p id="booked"></p>
     <p id="warns">update plz</p>
     <button class="layer0" id="newgen" onclick="newgenerator()">update plz</button>
     <p id="newgent">update plz</p>
@@ -83,6 +84,7 @@
     <p id="svmult">update plz</p>
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
     <p id="l2ut">update plz</p>
+    <button id="unlco" class="layer3" style="display: block;" onclick="if(game.chars>=1e12){game.chars-=1e12; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 3); this.style.display = 'none'}">Unlock account - 1e12 chars</button>
     <p id="deb"></p>
     <script>
       window.onerror = function(message, source, lineno, colno, error) {
@@ -122,6 +124,9 @@
       var books = [
         "ICAgICBUbyBoYXZlIHRoZSBlbmVyZ3kgb24gbGlnaHQgYW5kIGVsZWN0cm9ucywgdGhhdCBpcyB3aGF0IGNhdXNlcyB0aGVtIHRvIG1vdmUuIFdpdGggaW5jcmVkaWJseSAgIGZhc3RlciBzcGVlZCBvZiBlbGVjdHJvbnMsIHByb2dyYW1zIHRoYXQgYXJlIHNtYWxsIGNhbiBiZSByYW4gbWlsbGlvbnMgb2YgdGltZXMgcGVyIHNlY29uZC4gVW5sZXNzICB0aGUgcHJvZ3JhbSBpcyBhcyBsYXJnZSBhcyB0ZW4gdGhvdXNhbmQgY29tbWFuZHMsIGl0IGNhbiBiZSByYW4gdGhvdXNhbmRzIG9mIHRpbWVzIHBlciBzZWNvbmQuIEluICAgb25lIHdhcyB0byBzaW1wbHkgcmVhY2ggdGhlIHNwZWVkIG9mIGxpZ2h0IG9uIHRoZSBlbGVjdHJvbnMsIGl0IGNvdWxkIHJlYWNoIHRoZSBwb3RlbnRpYWwgb2YgaGF2aW5nIHRoZSBmYXN0ZXN0IGNvbXB1dGVyLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEN1cnJlbnRseSwgdGhlIHdvcmxkIHJlY29yZCBob2xkZXIgaXMgdGhlIExpbmVTaGluZSBzdXBlcmNvbXB1dGVyLCBhcyBpdHMgc3BlZWQgcmVhZHMgYXQgYXJvdW5kdHdvIGV4YWZsb3BzLCBvciB0d28gcXVpbnRpbGxpb24gbnVtZXJpY2FsIGNvbXB1dGF0aW9ucywgcGVyIHNlY29uZC4gVG8gYnVpbGQgc3VjaCBhIGh1Z2Ugc3BlZWQsIHlvdXdpbGwgbmVlZCB0byBidWlsZCBhcyBtYW55IGNvcmVzLiBTdGFydGluZyB3aXRoIGp1c3QgYSBmZXcgY29tcHV0ZXJzIGNhbiBkbyB0aGUgam9iIGEgYml0IHF1aWNrbHksICBidXQgaXQgbXVzdCBiZSBtYWludGFpbmVkIHRpbWUgdG8gdGltZSwgb3RoZXJ3aXNlIHNvbWUgb2YgdGhlIGNvbXB1dGVycyB3aWxsIGdldCBkYW1hZ2VkIGluIGhlYXQgb3IgaW4gbWVtb3J5IGxlYWsuIEFuIGV4YW1wbGUgZm9yIG5lZWRpbmcgdGhpcyBtdWNoIGNvbXB1dGVycyBpcyB0byBpbWFnaW5lIGhvdyBtdWNoIGRhdGEgYSBjb21wdXRlciAgIGNhbiBob2xkLiBUaGF0IGJlaW5nIG9uZSB0cmlsbGlvbiBieXRlcy4gSWYgeW91IG5lZWQgdHdvIHRyaWxsaW9uIGJ5dGVzLCBqdXN0IGJ1eSBhIG5ldyBjb21wdXRlci4gICAgICAgIFRvIGtub3cgaG93IHRvIG1haW50YWluIGFsbCBvZiB0aGVzZSBjb21wdXRlcnMgYXQgb25jZSwgeW91IG11c3QgbmVlZCBhIGxvdCBvZiB3YXRlciwgYW5kIGEgICAgY29yZS4gVGhlIG1haW4gcm9sZSBvZiB3YXRlciBpcyB0byBjb29sIGRvd24gdGhlIGNvcmUgb2YgdGhlIGNvbXB1dGVycywgYnV0IGl0IG11c3QgYmUgZGlzcG9zZWQgICAgIHByb3Blcmx5LCB0aGF0IG1lYW50IHNlbmRpbmcgaXQgaW4gdGhlIG9jZWFuIG9yIHNlbmRpbmcgaXQgaW4gdGhlIHNreSBhcyBhIGNsb3VkIG9yIHN0ZWFtLiBBSSBkYXRhICBjZW50ZXJzIGRvIHRoaXMgaW4gYW5vdGhlciB3b3JsZCBsaWtlIHRoaXMsIGJ1dCB0aGV5IGRvIGl0IGluIGEgbW9yZSB1bmRpc3Bvc2FibGUgd2F5LiBUaGUgbWFpbiByb2xlb2YgdGhlIGNvcmVzIGlzIHRvIGJ1aWxkIHVwIGEgc3lzdGVtIG9mIGNvbXB1dGVycyB0aGF0IGNhbiBlYXNpbHkgdHJhbnNmZXIgZGF0YSBmcm9tIG9uZSB0byBhbm90aGVyLiAgICAgQXMgeW91IGJ1aWxkIGFzIG1hbnkgY29yZXMsIHlvdSBtYXkgY29tZSB0byBhIHByb2JsZW0gb2YgdHJ5aW5nIHRvIHN0b3JlIG9uZSBjb21wdXRlciBmcm9tIGEgICBjb3JlIHRvIGEgY29tcHV0ZXIgdG8gYW5vdGhlciBjb3JlLiBEb2luZyB0aGUgc2FtZSB0aGluZyB3aXRoIGhvdyB5b3UgY29ubmVjdCBjb21wdXRlcnMgaW4gYSBjb3JlIGlzZmluZSwgYnV0IGl0IGlzIGEgbGl0dGxlIHNsb3dlci4gVW5mb3J0dW5hdGVseSwgdGhlcmUgaXMgbm90IGEgc29sdXRpb24gZm91bmQgZnJvbSBtZS4gWW91IG1heSBoYXZlIHRvIHN0aWNrIHdpdGggdGhhdC4gWW91IG1heSBhbHNvIGhhdmUgdG8gcmVkdWNlIGNvbmZ1c29sIGJ5IGhhdmluZyB0byBtYWtlIHN1cmUgdGhhdCBhbGwgb2YgdGhlIGRhdGF0cmFuc2ZlcnMgdG8gdGhlIHJpZ2h0IGNvbXB1dGVyLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBXaXRoIGFsbCBvZiB0aGlzIGluIG1pbmQsIGhvdyBkbyB5b3UgZ28gYWJvdXQgZG9pbmcgYW55IG9mIHRoaXM/IFRoZSBjb3N0IG9mIGRvaW5nIGFzIG11Y2ggICAgIGNvbXB1dGF0aW9uIGFuZCBzdGlsbCBmYWlsaW5nIHRvIHByb3ZlIGEgdGhlb3JlbSB3aXRoaW4gYSBsaW1pdGVkIHRpbWUgbWVhbnMgdGhhdCBpdCBpcyBub3QgZW5vdWdoLiBUaGF0IGJlaW5nIHNhaWQsIGJ5IGhhdmluZyB0aGUgdGltZSBhbmQgcG93ZXIgaGlnaCBlbm91Z2ggdG8gcmVhY2ggYW4gYW5zd2VyIHRoYXQgaGFzIG5vdCBiZWVuICAgICAgc291Z2h0IHVwb24sIGl0IGNhbiBtYWtlIHRoaW5ncyBlYXNpZXIsIGFkdmFuY2luZyBmcm9tIHdoYXQgd2UgaGFkIGtub3duLiAgICAgICAgICAgICAgICAgICAgICAgICAgIA=="
       ].map(v => atob(v))
+      var bookl = [0,0,0]
+      bookl.push(bookl[2]+books[0].length)
+      books=books.join("")
       var game = {
         chars: 0,
         gen: 0,
@@ -136,8 +141,10 @@
         powerpower: 0,
         svmul: 0,
         ppmul: false,
+        comps: 1,
         layersunl: 0,
         layer: 0,
+        bookc: 0,
         flagsN: {
           hasStarted: 0,
           thousand: 0,
@@ -186,6 +193,7 @@
         document.querySelectorAll(".layer"+game.layer).forEach(v => {v.style.display = "block"})
         if (game.layersunl != 0) document.getElementById("unldo").style.display = "none"
         if (game.layersunl != 1) document.getElementById("unlac").style.display = "none"
+        if (game.layersunl != 2) document.getElementById("unlco").style.display = "none"
       }
       function newgenerator() {
         if (game.chars >= 1.4**game.gen) {
@@ -231,6 +239,8 @@
         game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>=1e6*1.25**game.svmul))**(1/Math.sqrt(Math.log10(Math.max(game.chars, 1e12))-11))
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
+        let bookcheck = 0
+        while (game.bookc < bookl[game.layersunl] && books[game.bookc] == chinlen[bookcheck])
         charinput.value = ""
         charinput.placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
         document.getElementById("resuchars").innerHTML = game.chars.toFixed(0)+" chars ~ "+game.lastch
@@ -275,6 +285,7 @@
         document.getElementById("l2u").innerHTML = "Multiply Download Power^2 Cost: 5000000"
         document.getElementById("l2ut").innerHTML = (["","Download Power^2 is now "+(1.25**game.svmul).toFixed(2)+" times stronger."][Number(game.ppmul)]).repeat(Number(game.layer==2))
         document.getElementById("warns").innerHTML = warns.join("<br>")
+        document.getElementById("booked").innerHTML = game.layersunl < 3 ? "Unlock layer 3" : ("This is your book. You have to type a certain combination of characters.<br>"+books.substring(game.bookc-100,game.bookc))
         requestAnimationFrame(ui)
       }
       function load() {
@@ -305,8 +316,9 @@
                                  +"\ngame.powerpower="+game.powerpower
                                  +"\ngame.svmul="+game.svmul
                                  +"\ngame.ppmul="+game.ppmul
+                                 +"\ngame.bookc="+game.bookc
+                                 +"\ngame.comps="+game.comps
                                  +"\ngame.flagsN="+JSON.stringify(game.flagsN)
-                                 +"\ngame.flagsT="+JSON.stringify(game.flagsT)
                                 )
       }
       setInterval(save, 10000)
