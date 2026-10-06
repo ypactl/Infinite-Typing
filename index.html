@@ -85,6 +85,8 @@
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
     <p id="l2ut">update plz</p>
     <button id="unlco" class="layer3" style="display: block;" onclick="if(game.chars>=1e12){game.chars-=1e12; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 3); this.style.display = 'none'}">Unlock account - 1e12 chars</button>
+    <button class="layer3" id="comps" onclick="newcomp()">update plz</button>
+    <p id="compst">update plz</p>
     <p id="deb"></p>
     <script>
       window.onerror = function(message, source, lineno, colno, error) {
@@ -229,6 +231,12 @@
           game.ppmul=true
         }
       }
+      function newcomp() {
+        if (game.chars >= 1e12*1.5**game.comps) {
+          game.chars-=1e12*1.5**game.comps
+          game.comps++
+        }
+      }
       function ui() {
         nt = new Date().getTime()
         var del = nt-ot
@@ -239,7 +247,8 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>=1e6*1.25**game.svmul))**(1/Math.sqrt(Math.log10(Math.max(game.chars, 1e12))-11))
+        var rooter = Math.sqrt(Math.log10(Math.max(game.chars/1e12/game.chars, 0))+1)
+        game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>=1e6*1.25**game.svmul))**(1/rooter)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
         let bookcheck = 0
@@ -274,13 +283,13 @@
         if (game.chars >= 1e6*1.25**game.svmul) {
           warns.push("You have exceeded "+(1e6*1.25**game.svmul).toFixed(0)+" chars, causing a data leak. As a result, your production has been cut by 67%.")
         }
-        if (game.chars >= 1e12) {
-          warns.push("You have exceeded 1e12 chars, causing slower storage. As a result, your download speed has been rooted by "+(Math.sqrt(Math.log10(game.chars)-11)).toFixed(2)+".")
+        if (game.chars >= 1e12*game.comps) {
+          warns.push("You have exceeded "+(1e12*game.comps)+" chars, causing slower storage. As a result, your download speed has been rooted by "+rooter.toFixed(2)+".")
         }
         guider.style.opacity = (Math.sin((new Date().getTime() - game.texttime - 1250)/2500*Math.PI)+1)*2.5
         document.getElementById("newgen").innerHTML = "Generator Cost: "+(1.4**game.gen).toFixed(2)
         document.getElementById("newgent").innerHTML = ("You have "+game.gen+" generators, giving you "+((game.gen**2+game.gen)/10).toFixed(0)+" chars per second.").repeat(Number(game.layer==0))
-        document.getElementById("dtext").innerHTML = ("You are downloading "+(1000+game.power*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower))+" chars per second").repeat(Number(game.layer==1))
+        document.getElementById("dtext").innerHTML = ("You are downloading "+((1000+game.power*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower))**(1/rooter)).toFixed(2)+" chars per second").repeat(Number(game.layer==1))
         document.getElementById("incdownt").innerHTML = ("You have "+game.power+" download power, adding "+((100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)*game.power)+" chars to download speed.").repeat(Number(game.layer==1))
         document.getElementById("incdown").innerHTML = "Download Power Cost: "+(50000+10000*game.power)
         document.getElementById("incpowt").innerHTML = ("You have "+game.powerpower+" download power^2, adding "+(50*1.25**(game.svmul*game.ppmul)*game.powerpower)+" chars more on each download power.").repeat(Number(game.layer==1))
@@ -288,7 +297,9 @@
         document.getElementById("svmul").innerHTML = "Multiply Softcap Cost: "+(1e6*1.25**game.svmul).toFixed(0)
         document.getElementById("svmult").innerHTML = ("The softcap is currently at "+(1e6*1.25**game.svmul).toFixed(0)+" chars.").repeat(Number(game.layer==2))
         document.getElementById("l2u").innerHTML = "Multiply Download Power^2 Cost: 5000000"
-        document.getElementById("l2ut").innerHTML = (["","Download Power^2 is now "+(1.25**game.svmul).toFixed(2)+" times stronger."][Number(game.ppmul)]).repeat(Number(game.layer==2))
+        document.getElementById("l2ut").innerHTML = (["","Download Power^2 is now "+(1.25**game.svmul).toFixed(2)+" times stronger."][Number(game.ppmul)]).repeat(Number(game.layer==3))
+        document.getElementById("comps").innerHTML = "Get New Computer Cost: "+(1e12*1.5**game.comps).toFixed(2)
+        document.getElementById("compst").innerHTML = ("The storage capacity is at "+(1e12*game.comps)+" chars").repeat(Number(game.layer==3))
         document.getElementById("warns").innerHTML = warns.join("<br>")
         document.getElementById("booked").innerHTML = game.layersunl < 3 ? "Unlock layer 3" : ("This is your book. You have to type a certain combination of characters.<br>"+books.substring(game.bookc-100,game.bookc))
         requestAnimationFrame(ui)
