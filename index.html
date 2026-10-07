@@ -79,7 +79,7 @@
     <button class="layer1" id="incpow" onclick="increasepower()">update plz</button>
     <p id="incpowt">update plz</p>
     <button id="unlac" class="layer2" style="display: block;" onclick="if(game.chars>=524288){game.chars-=524288; game.logged = true; game.flagsN.logged = Math.max(game.flagsN.logged,1); game.layersunl = Math.max(game.layersunl, 2); this.style.display = 'none'}">Unlock account - 524288 chars</button>
-    <input id="namer" maxlength="25" placeholder="Enter an = to submit." oninput="checkname(this)">
+    <input id="namer" maxlength="25" placeholder="update plz" oninput="checkname(this)">
     <button class="layer2" id="svmul" onclick="multsoftcap()">update plz</button>
     <p id="svmult">update plz</p>
     <button class="layer2" id="l2u" onclick="multpp()">update plz</button>
@@ -97,30 +97,54 @@
       var ot = nt
       var namer = {
         ZOE: ["ZOE.", "A beautiful name.", ""],
+        ZETA: ["ZETA, I wonder how this name came to you.", "Yet have I heard some stories of that.", ""],
         YURI: ["...", "You are not the developer, are you?", "I know that because, this name is common", "Regardless, this name is pretty.", ""],
+        YAOI: ["You're not messing with the developer's name, right?", ""],
         WILSON: ["WILSON, as in Wilson Code, huh?", "Or maybe you do not know about it?", "Search it up if you do not.", ""],
+        WES: ["...", ""],
         XAVIER: ["Hmm...", "Go on.", ""],
+        X: ["You just typed in a random letter and hoped you get unique dialogue?", "The developer just started making dialogue for this kind of stuff.", ""],
         USER: ["Okay, so you either just put this here or actually did not type anything.", "Why?", "At least get some recognition from others in future layers.", ""],
+        URINATOR: ["This is not funny. Change your name.", ""],
+        THEUCETILE: ["Ah, so you are the playtester, is that right?", "I once got a chance to address one of these.", "They have been playing YURI's game for a while now.", ""],
         TANNER: ["I have seen you before, as a content creator named SmallAnt.", "Or maybe you are someone else?", ""],
         SHE: ["SHE?", "I would not call you a pronoun, if it was actually that.", ""],
+        SARAH: ["SARAH, a beautiful name.", "I once heard that it is a common name, but I am not sure.", ""],
         ROONEY: ["Interesting name choice.", "I have heard it is from a hockey team, but I cannot tell which.", ""],
         Q: ["YURI put this specific set of dialogue.", "I guess it is for anything alphabetical.", ""],
+        QUESTION: ["What is your question?", "You wouldn't have one, because I am not ready for that.", ""],
+        PROMISE: ["Promis what?", "I don't know what you are talking about.", ""],
         PAISLEY: ["PAISLEY, huh?", "I have been told not to speak of you, for some reason.", "Unless, you are not who I was not supoosed to speak of.", ""],
+        ORANGE: ["Are you actually named this?", "I have never seen this before.", ""],
         OLIVER: ["OLIVER, a good name to mix up with.", "I say this because YURI mixed up someone's gender for this name.", ""],
         NOLE: ["You would not mix up the name Noelle, right?", "Or do you know something I do not know of?", ""],
+        NOELLE: ["I see the spelling of the name NOEL.", "It is kind of mixed up.", ""],
+        MIA: ["I have seen this name before.", "I do not actually know if it is used now.", ""],
         MARIE: ["MARIE, a beautiful name.", "Yet, have I not seen one with this name at all.", ""],
+        LAUREN: ["LAUREN, a nice name.", "There are some mixed flags for this name, as I have heard."],
         LARRY: ["LARRY from a terrifying game in a game called Roblox.", ""],
         KAYLA: ["KAYLA, huh?", "It is interesting, how you managed to find this game.", ""],
+        K: ["The special dialogue of K.", "You wouldn't spam it in, right?", ""],
         JUNE: ["Did you have to put a random month for this?", "Even if it was actually your month of birth?", "This set of dialogue is here because YURI needed to fill up the alphabet names list.", "He actually could not think of a name for the letter J.", ""],
+        JULY: ["Did you have to put a random month for this?", "Even if it was actually your month of birth?", "This set of dialogue is here because YURI needed to fill up the alphabet names list.", "He actually could not think of a name for the letter J.", ""],
         INFINITY: ["INFINITY, as in the naturally uncountable number itself.", ""],
+        ICELAND: ["I feel like I know someone from this country.", "I just cannot tell who.", "Also, why are tou named like that?", ""],
+        HARRY: ["HARRY, from Harry Potter.", "It is like a common name to see.", ""],
         HANNAH: ["HANNAH, a cute name.", "I have seen this name from a content creator, where they talked about palindromes.", "Search it up, if you want.", ""],
+        GERALD: ["GERALD.", "I will tell you something. This name was used in some writing before.", ""],
         GASTER: ["Unfortunately, you cannot do the resetting thing like in UNDERTALE and DELTARUNE.", "If GASTER knew about this game, it would actually happen.", ""],
+        FLY: ["...", ""],
         FERGE: ["Unique name, only for it to get pronounced as unintended.", ""],
+        ETHAN: ["YURI knew you would play this game for a while.", "Or is this a different ETHAN?", ""],
         EMMA: ["This is a more common name.", "If only it was not.", ""],
         DEER: ["Why exactly did you choose this name?", "You seriously cannot go this far into finding this set of dialogue, right?", ""],
+        DANIEL: ["...", ""],
         CHASSIE: ["CHASSIE, A pretty name. Yet have not found one with this name.", ""],
+        CAL: ["Fun fact: This name was used in an animation series called ASCII animations..", "The full name of CAL is CALORIE.", ""],
         BLUEBERRY: ["I do not know why you chose this name.", "I will say the same for YURI.", ""],
+        BLUE: ["I can say it's your favorite color, but why did tou type this in?", "There's not actually a name called BLUE, right?", ""],
         ASHLEY: ["ASHLEY, a beautiful name, that I know used to be a boy name sometime ago.", "Yet a common name, on a majority.", "Anyway, I happen to know why YURI made this set of dialogue. I will not tell you.", ""],
+        ALEXANDRA: ["ALEXANDRA, a beuatiful name. It is quite common, though.", ""],
         "": ["Huh. This name is unique.", "I have never seen this name before,", "Unless you have mispelled it in a way that I cannot recognize.", ""]
       }
       var books = [
@@ -161,7 +185,7 @@
         },
         flagsT: {
           hasStarted: ["'Hello, '+game.name+'.'", "'You have started typing.'", "'I do not know what to say here, since you have just came.'", "'I will leave you to it.'", "'Expect me at around 1000 chars.'", "''"],
-          thousand: ["'I forgot to tell you something.'", "'I know the developer, YURI, by code, and he likes to put as much effort into this game,'", "'Which is why he planned a lot of layers.'", "'There are 3 layers as of now, naming them LAYER0 to LAYER2.'", "'Do not ask why, he likes naming things this way.'", "'Get to 65536 chars to see the next layer.'", "''"],
+          thousand: ["'I forgot to tell you something.'", "'I know the developer, YURI, by code, and he likes to put as much effort into this game,'", "'Which is why he planned a lot of layers.'", "'There are 4 layers as of now, naming them LAYER0 to LAYER3.'", "'Do not ask why, he likes naming things this way.'", "'Get to 65536 chars to see the next layer.'", "''"],
           spam: ["'kK'.includes(game.lastch[0])?'Never do this again.':game.lastch.substring(90)", "'kK'.includes(game.lastch[0])?'Seriously.':'100 '+game.lastch[0]+'.'", "''"],
           unknownchar: ["'What is a '+game.unkch+'?'","'Do you have a keyboard that I am unaware of?'","''"],
           thrytwgen: ["game.flagsN.downloaded = 2; 'You know that there was a faster way to get to 65536 chars?'", "'You missed that oppurtunity.'", "'I was going to say something about unlocking downloads, but I forgot it.'", "''"],
@@ -247,7 +271,7 @@
           game.flagsN.maxlength++
         }
         var guider = document.getElementById("guider")
-        var rooter = Math.sqrt(Math.log10(Math.max(game.chars/1e12/game.comps, 1))+1)
+        var rooter = Math.sqrt(Math.log10(Math.max(game.chars/Math.max(1e12/game.comps, 1), 1))+1)
         game.chars += chinlen.length + del/10000*(game.gen**2+game.gen) + ((game.downloaded*del*(1+game.power/1000*(100+50*1.25**(game.svmul*game.ppmul)*game.powerpower)))/3**Number(game.chars>=1e6*1.25**game.svmul))**(1/rooter)
         game.lastch += charinput.value
         game.lastch = game.lastch.slice(-100)
@@ -257,6 +281,7 @@
         }
         charinput.value = ""
         charinput.placeholder = game.chars>0?"KEEP TYPING.":"START TYPING."
+        document.getElementById("namer").placeholder = "Your name is "+game.name+". Enter a name then an = to change name."
         document.getElementById("resuchars").innerHTML = game.chars.toFixed(0)+" chars ~ "+game.lastch
         if (game.chars >= 1 && game.flagsN.hasStarted < 1) game.flagsN.hasStarted++
         if (game.chars >= 1000 && game.flagsN.thousand < 1) game.flagsN.thousand++
